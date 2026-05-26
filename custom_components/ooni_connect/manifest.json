@@ -1,15 +1,15 @@
 {
   "domain": "ooni_connect",
   "name": "Ooni Connect",
-  "codeowners": ["@RookieIVG"],
+  "codeowners": ["@erwin-willems","@RookieIVG","@lucaam"],
   "config_flow": true,
   "dependencies": ["bluetooth"],
   "documentation": "https://github.com/RookieIVG/ha-ooni",
   "integration_type": "device",
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/RookieIVG/ha-ooni/issues",
-  "requirements": ["ooni-connect-bluetooth@git+https://github.com/RookieIVG/ooni-connect-bluetooth.git@main"],
-  "version": "1.0.0",
+  "requirements": ["ooni-connect-bluetooth@git+https://github.com/erwin-willems/ooni-connect-bluetooth.git@main"],
+  "version": "1.0.1",
   "bluetooth": [
     {
       "local_name": "Ooni_DT_Hub"
