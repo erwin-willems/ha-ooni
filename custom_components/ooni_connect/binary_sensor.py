@@ -30,13 +30,14 @@ BINARY_SENSORS: tuple[BinarySensorEntityDescription, ...] = (
     ),
 )
 
+
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up binary sensors."""
     coordinator = hass.data[DOMAIN][entry.entry_id]
     async_add_entities(
-        OoniBinarySensor(coordinator, description)
-        for description in BINARY_SENSORS
+        OoniBinarySensor(coordinator, description) for description in BINARY_SENSORS
     )
+
 
 class OoniBinarySensor(CoordinatorEntity, BinarySensorEntity):
     """Represents a binary (on/off) sensor."""
@@ -52,12 +53,16 @@ class OoniBinarySensor(CoordinatorEntity, BinarySensorEntity):
         }
 
     @property
-    def is_on(self) -> bool:
+    def is_on(self) -> bool | None:
         """Return whether the sensor is on or off."""
 
         # Special case: the connection sensor itself
         if self.entity_description.key == "status_connected":
-            return self.coordinator.is_connected
+            # Reflect live Bluetooth link status from the client
+            return bool(
+                self.coordinator.client is not None
+                and self.coordinator.client.is_connected
+            )
 
         # All other sensors (probes, eco mode): return None when no data is available
         if not self.coordinator.data:
