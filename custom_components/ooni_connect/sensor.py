@@ -1,9 +1,10 @@
 import logging
+
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
-    SensorStateClass,
     SensorEntityDescription,
+    SensorStateClass,
 )
 from homeassistant.const import PERCENTAGE, UnitOfTemperature
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -50,13 +51,14 @@ SENSOR_TYPES: tuple[SensorEntityDescription, ...] = (
     ),
 )
 
+
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up sensors."""
     coordinator = hass.data[DOMAIN][entry.entry_id]
     async_add_entities(
-        OoniTemperatureSensor(coordinator, description)
-        for description in SENSOR_TYPES
+        OoniTemperatureSensor(coordinator, description) for description in SENSOR_TYPES
     )
+
 
 class OoniTemperatureSensor(CoordinatorEntity, SensorEntity):
     """Represents an Ooni sensor."""
@@ -74,6 +76,12 @@ class OoniTemperatureSensor(CoordinatorEntity, SensorEntity):
     @property
     def native_value(self):
         """Return the sensor value as received from the device."""
+        if (
+            self.entity_description.device_class == SensorDeviceClass.TEMPERATURE
+            and not self.coordinator.is_connected
+        ):
+            return 0
+
         if not self.coordinator.data:
             return None
 
