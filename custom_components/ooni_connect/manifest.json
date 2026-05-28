@@ -9,7 +9,7 @@
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/RookieIVG/ha-ooni/issues",
   "requirements": ["ooni-connect-bluetooth@git+https://github.com/erwin-willems/ooni-connect-bluetooth.git@main"],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "bluetooth": [
     {
       "local_name": "Ooni_DT_Hub"
